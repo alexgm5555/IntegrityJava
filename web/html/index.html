@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Integrity</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script type="text/javascript" src="../scripts/jquery-2.2.0.min.js"></script>    
+        <script type="text/javascript" src="../scripts/jquery.min.js"></script>
+        <script type="text/javascript" src="../scripts/kendo.all.min.js"></script>
+        <script type="text/javascript" src="../scripts/jstree.min.js"></script>
+        <script type="text/javascript" src="../js/index.js"></script>        
+        <!--<script type="text/javascript" type="text/javascript"src="../js/json.js" ></script>-->
+        <link rel="stylesheet" type="text/css" href="css/cssSpriteIntegrity.css">        
+        <link rel="stylesheet" href="../css/kendo.common.min.css">
+        <link rel="stylesheet" href="../css/kendo.default.min.css" />
+        <link rel="stylesheet" href="../css/kendo.common.min.css" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="../css/kendo.metro.min.css" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="../css/kendo.default.mobile.min.css" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="../css/estilos.css" media="screen" title="no title" charset="utf-8">
+        <link rel="stylesheet" href="../css/index.css" type="text/css"/>        
+        
+    </head>
+    <body>
+        <div id="div3">
+                <div>
+                    <table width="100%">
+                        <tr>
+                            <td width="51px" name="tdSuperior">
+                                <img id="imgLogoIntegrity" src="../images/Login Inicio-07.png" alt=""/></td>
+                            <td align="center" name="tdSuperior">                    
+                                <!--<img src="../images/logoemp.png" alt=""/>-->
+                            </td>
+                            <td width="180px" id="tdAyuda" name="tdSuperior" align="right">
+                                <img src="../images/documentos.png" alt="" onclick=""/>
+                                <img src="../images/configuracion.png" alt="" onclick=""/>
+                                <img src="../images/ayuda.png" alt="" onclick="ayuda()"/>
+                                <img src="../images/salir.png" alt="" onclick="cerrarSesion()"/>                    
+                            </td>                
+                            <td width="10px" name="tdSuperior"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div>
+                    <table width="100%">
+                        <tr>
+                            <td width="51px">
+                                <div>
+                                    <table width="100%">
+                                        <tr>
+                                            <td>
+                                                <img id="imgPortafolio" src="../images/transaccionesOff.png" alt="Portafolio" onClick="cambiarimgPortafolio();  mostrarArbol();" estado="off" name="imgMenu" onmouseover="this.src='../images/transaccionesRO.png';" onmouseout="this.src='../images/transaccionesOff.png';"/>                    
+                                            </td>                
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img id="imgMisReportes" src="../images/reportesOff.png" alt="MisReportes" onClick="cambiarimgMisReportes()" estado="off" name="imgMenu" onmouseover="this.src='../images/reportesRO.png';" onmouseout="this.src='../images/reportesOff.png';"/>
+                                            </td>                
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img id="imgIndicadores" src="../images/indicadoresOff.png" alt="" onClick="cambiarimgIndicadores()" estado="off" name="imgMenu" onmouseover="this.src='../images/indicadoresRO.png';" onmouseout="this.src='../images/indicadoresOff.png';"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <img id="imgProcesos" src="../images/procesosOff.png" alt="" onClick="cambiarimgProcesos()" estado="off" name="imgMenu" onmouseover="this.src='../images/procesosRO.png';" onmouseout="this.src='../images/procesosOff.png';"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                            <td>                                
+                                <div id="outerWrapper"> 
+                                    <div id="perfil">
+                                        <table width="100%" height="100%">
+                                            <tr>                
+                                                <td class="tdPerfil" width="253px">                                                    
+                                                    <img id="imgUsuario" src="" onerror="this.src='../images/equipo/use default.png'" alt=""/>
+                                                    <div id="datosUsuario">
+                                                        <label id= "lbNombre">Nombre</label><br>                                                   
+                                                        <label id= "lbEMail">Correo electrónico</label><br><br>
+                                                        <div id="divBtCambiarClave">
+                                                            <button id="btnCambiarClave" class="k-primary" onclick="cambiarClave()">Cambiar Clave</button>                                                            
+                                                        </div>                                                        
+                                                    </div>
+                                                    <div id="cambiarClave" hidden="hidden">
+                                                        <br>
+                                                        <br>
+                                                        <label id= "lbClave" >Nueva clave:</label><br> 
+                                                        <input id="lpClave" required/><br><br>
+                                                        <label id= "lbRClave" >Repetir clave:</label><br>
+                                                        <input id="lpRClave" required/><br><br><br>
+                                                        <button id="btnGuardarClave" class="k-primary" onclick="guardarClave()">Guardar Clave</button>
+                                                    </div>
+                                                    <br>
+                                                </td>
+                                                <td>
+                                                    <div id = "iframe" padding="10px">
+                                                        <iframe id="idFrame" width="100%" height="100%" src="http://190.144.16.114:18800/PruebaHRD/" ></iframe>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div id="divArbol" hidden="hidden" position: absolute; z-index: 1;></div>                                    
+                                </div>
+                            </td>
+                        </tr>
+                    </table>            
+                </div>
+            </div>
+            <div id="windowDiv" name="windowDiv"></div>
+    </body>
+</html>
+

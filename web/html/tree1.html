@@ -1,0 +1,93 @@
+<html>
+<head>
+<link rel="stylesheet" href="./css/style.min.css" />
+
+</head>
+<body>
+    <script src="./scripts/jquery-1.10.2.min.js"></script>
+    <script src="./scripts/jstree.min.js"></script>
+    <div id="jstree2"  ondrop="drop(event)" ondragover="allowDrop(event)" style="font-family:Tahoma;font-size:9pt;"></div>
+	<div id="UpBck" style="
+   position:absolute;
+   filter:alpha(opacity=60);
+   -moz-opacity:0.3;
+   opacity:0.3;
+   heigth: 100%;
+   top: 0; 
+    left: 0; 
+    z-index: 1000; 
+    background:#999 ;
+    min-height: 100%;
+    width: 100%;
+	">
+    <script>
+        
+        try{
+            document.addEventListener('click', function(e) {
+                e = e || window.event;
+                var target = e.target || e.srcElement, text = target.text || text.innerText;
+                sessionStorage.setItem("pcf", text);
+            }, false);
+            if(sessionStorage.getItem("Nuevo")=="no"){// para evitar que el nuevo rol tenga datos predefinidos
+		document.getElementById("UpBck").style.display ="none";
+        	}
+            $(function() {
+                try{
+                $('#jstree2').jstree(JSON.parse(sessionStorage.getItem("txtJson2")));
+                    if(sessionStorage.getItem("pcArbol")){
+                        $('#jstree2').jstree(true) .select_node(sessionStorage.getItem("pcArbol"));
+                    }else
+                if(sessionStorage.getItem("pcf")){
+                        $('#jstree2').jstree(true) .select_node(sessionStorage.getItem("pcf"));
+                        
+                    }
+                }catch(e){alert(e.message);}
+                 $('#jstree2').on('click', function () {
+                    var idSelec=$('#jstree2').jstree(true).get_selected();
+                    sessionStorage.setItem("pcArbol1", idSelec);
+                    sessionStorage.setItem("pcArbol", idSelec);
+                 }); 
+                $('#jstree2').on('dblclick', function () {
+                    
+                    var id=$('#jstree2').jstree(true).get_selected();
+                    for(var i=0;i<id.length;i++){
+                        
+                        if($('#jstree2').jstree(true).is_open(id[i])){
+                            $('#jstree2').jstree(true).close_node(id[i]);
+                            parent.ocultaImgTree();
+                        }
+                        else{
+                            $('#jstree2').jstree(true).open_node(id[i]);
+                            parent.ocultaImgTree();
+                        }
+                        if(!$('#jstree2').jstree(true).is_parent(id[i])){
+                          var texto = id[i];
+                          sessionStorage.setItem("pcf", texto)
+                         
+                          parent.fijarPcf();
+                        }
+                        
+                    }
+                });
+            });
+        }
+        catch(err){
+            alert(err);
+        }
+   function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    ev.target.appendChild(document.getElementById(data));
+alert(document.getElementById(data).id);
+}
+    </script>
+</body>
+</html>
