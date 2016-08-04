@@ -9,13 +9,13 @@ $(document).ready(function() {
     sessionStorage.setItem("VideoAyuda","http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865s");//cambiar urlVideo con url link apenas este listo el video de ayuda   
     sessionStorage.setItem("pcf","PORTAL NOMINA");
     sessionStorage.setItem("ncf","PORTAL NOMINA");
-    $.getJSON("../js/txtJson2.json",function(data){        
+    $.getJSON("js/txtJson2.json",function(data){        
         objJson=data;
         strJson=JSON.stringify(objJson);
         sessionStorage.setItem("txtJson2",strJson);
 //        sessionStorage.setItem("jsMenuxRol",strJson);
     }); 
-//    $.getJSON("../js/txtJson3.json",function(data){        
+//    $.getJSON("js/txtJson3.json",function(data){        
 //        objJson=data;
 //        strJson=JSON.stringify(objJson);
 //        sessionStorage.setItem("txtJson3",strJson);
@@ -34,7 +34,7 @@ $(document).ready(function() {
         $("#divArbol").load("tree2.html"); 
         document.getElementById("lbNombre").innerHTML = sessionStorage.getItem("usrnom");
         document.getElementById("lbEMail").innerHTML = sessionStorage.getItem("usrmail");    
-        document.getElementById("imgUsuario").src = "../images/equipo/"+sessionStorage.getItem("usuario")+".png";
+        document.getElementById("imgUsuario").src = "images/equipo/"+sessionStorage.getItem("usuario")+".png";
     }else{
         window.location.assign("login.html");
     }
@@ -60,7 +60,7 @@ function cambiarImagen(imgId, estiloTd){
     apagarBotones(imgId);
     
     if(estado == "off"){         
-        document.getElementById(imgId).src = "../images/"+imgName+"On.png";
+        document.getElementById(imgId).src = "images/"+imgName+"On.png";
         document.getElementById(imgId).setAttribute("estado", "on");
         document.getElementById(imgId).setAttribute("onmouseover", "");
         document.getElementById(imgId).setAttribute("onmouseout", "");
@@ -73,9 +73,9 @@ function cambiarImagen(imgId, estiloTd){
  */
 function cambiarFondoTD(nombreClase){    
     if(nombreClase==""){        
-        document.getElementById("imgLogoIntegrity").src = "../images/Login Inicio-07.png";
+        document.getElementById("imgLogoIntegrity").src = "images/Login Inicio-07.png";
     }else{
-        document.getElementById("imgLogoIntegrity").src = "../images/logo-08.png";
+        document.getElementById("imgLogoIntegrity").src = "images/logo-08.png";
     }    
     var listaTdSuperior = document.getElementsByName("tdSuperior");    
     for (var i=0; i<listaTdSuperior.length; i++){
@@ -91,10 +91,10 @@ function apagarBotones(id){
     for (var i=0; i<imgMenu.length; i++){        
         if(imgMenu[i].id!=id && imgMenu[i].getAttribute("estado")!="off"){
             var imgNombre=imgMenu[i].id.replace("img", "").toLowerCase();            
-            document.getElementById(imgMenu[i].id).src = "../images/"+imgNombre+"Off.png";
+            document.getElementById(imgMenu[i].id).src = "images/"+imgNombre+"Off.png";
             document.getElementById(imgMenu[i].id).setAttribute("estado", "off");
-            document.getElementById(imgMenu[i].id).setAttribute("onmouseover", "this.src='../images/"+imgNombre+"RO.png';");
-            document.getElementById(imgMenu[i].id).setAttribute("onmouseout", "this.src='../images/"+imgNombre+"Off.png';");
+            document.getElementById(imgMenu[i].id).setAttribute("onmouseover", "this.src='images/"+imgNombre+"RO.png';");
+            document.getElementById(imgMenu[i].id).setAttribute("onmouseout", "this.src='images/"+imgNombre+"Off.png';");
         }
     }
 }
