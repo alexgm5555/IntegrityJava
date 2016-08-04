@@ -13,9 +13,8 @@ and open the template in the editor.
         <script type="text/javascript" src="../scripts/jquery.min.js"></script>
         <script type="text/javascript" src="../scripts/kendo.all.min.js"></script>
         <script type="text/javascript" src="../scripts/jstree.min.js"></script>
-        <script type="text/javascript" src="../js/index.js"></script>        
-        <!--<script type="text/javascript" type="text/javascript"src="../js/json.js" ></script>-->
-        <link rel="stylesheet" type="text/css" href="css/cssSpriteIntegrity.css">        
+        <script type="text/javascript" src="../js/index.js"></script>
+        <link href="../css/cssSpriteIntegrity.css" rel="stylesheet" type="text/css"/>
         <link rel="stylesheet" href="../css/kendo.common.min.css">
         <link rel="stylesheet" href="../css/kendo.default.min.css" />
         <link rel="stylesheet" href="../css/kendo.common.min.css" media="screen" title="no title" charset="utf-8">
@@ -53,22 +52,22 @@ and open the template in the editor.
                                     <table width="100%">
                                         <tr>
                                             <td>
-                                                <img id="imgPortafolio" src="../images/transaccionesOff.png" alt="Portafolio" onClick="cambiarimgPortafolio();  mostrarArbol();" estado="off" name="imgMenu" onmouseover="this.src='../images/transaccionesRO.png';" onmouseout="this.src='../images/transaccionesOff.png';"/>                    
+                                                <img id="imgTransacciones" src="../images/transaccionesOff.png" title="Transacciones" onClick="cambiarImagen('imgTransacciones','tdVerde');  mostrarArbol();" estado="off" name="imgMenu" onmouseover="this.src='../images/transaccionesRO.png';" onmouseout="this.src='../images/transaccionesOff.png';"/>                    
                                             </td>                
                                         </tr>
                                         <tr>
                                             <td>
-                                                <img id="imgMisReportes" src="../images/reportesOff.png" alt="MisReportes" onClick="cambiarimgMisReportes()" estado="off" name="imgMenu" onmouseover="this.src='../images/reportesRO.png';" onmouseout="this.src='../images/reportesOff.png';"/>
+                                                <img id="imgReportes" src="../images/reportesOff.png" title="Reportes" onClick="cambiarImagen('imgReportes','tdNaranja')" estado="off" name="imgMenu" onmouseover="this.src='../images/reportesRO.png';" onmouseout="this.src='../images/reportesOff.png';"/>
                                             </td>                
                                         </tr>
                                         <tr>
                                             <td>
-                                                <img id="imgIndicadores" src="../images/indicadoresOff.png" alt="" onClick="cambiarimgIndicadores()" estado="off" name="imgMenu" onmouseover="this.src='../images/indicadoresRO.png';" onmouseout="this.src='../images/indicadoresOff.png';"/>
+                                                <img id="imgIndicadores" src="../images/indicadoresOff.png" title="Indicadores" onClick="cambiarImagen('imgIndicadores','tdAzul')" estado="off" name="imgMenu" onmouseover="this.src='../images/indicadoresRO.png';" onmouseout="this.src='../images/indicadoresOff.png';"/>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td>
-                                                <img id="imgProcesos" src="../images/procesosOff.png" alt="" onClick="cambiarimgProcesos()" estado="off" name="imgMenu" onmouseover="this.src='../images/procesosRO.png';" onmouseout="this.src='../images/procesosOff.png';"/>
+                                                <img id="imgProcesos" src="../images/procesosOff.png" title="Procesos" onClick="cambiarImagen('imgProcesos','tdRojo')" estado="off" name="imgMenu" onmouseover="this.src='../images/procesosRO.png';" onmouseout="this.src='../images/procesosOff.png';"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -101,7 +100,7 @@ and open the template in the editor.
                                                 </td>
                                                 <td>
                                                     <div id = "iframe" padding="10px">
-                                                        <iframe id="idFrame" width="100%" height="100%" src="http://190.144.16.114:18800/PruebaHRD/" ></iframe>
+                                                        <!--<iframe id="idFrame" width="100%" height="100%" src="http://190.144.16.114:18800/PruebaHRD/" ></iframe>-->
                                                     </div>
                                                 </td>
                                             </tr>

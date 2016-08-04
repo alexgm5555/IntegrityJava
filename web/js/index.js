@@ -1,9 +1,26 @@
+var objJson;
+var strJson;
+
 $(document).ready(function() {
     sessionStorage.setItem("usrnom","Fernando Chaparro");//despues de las pruebas se debe eliminar esta linea
     sessionStorage.setItem("usuario","fchaparro");//despues de las pruebas se debe eliminar esta linea
     sessionStorage.setItem("usrmail","fchaparro@quantumltda.com"); //despues de las pruebas se debe eliminar esta linea
     sessionStorage.setItem("loginintegrity","valido"); //despues de las pruebas se debe eliminar esta linea
-    sessionStorage.setItem("VideoAyuda","http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865s");//cambiar urlVideo con url link apenas este listo el video de ayuda
+    sessionStorage.setItem("VideoAyuda","http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865s");//cambiar urlVideo con url link apenas este listo el video de ayuda   
+    sessionStorage.setItem("pcf","PORTAL NOMINA");
+    sessionStorage.setItem("ncf","PORTAL NOMINA");
+    $.getJSON("../js/txtJson2.json",function(data){        
+        objJson=data;
+        strJson=JSON.stringify(objJson);
+        sessionStorage.setItem("txtJson2",strJson);
+//        sessionStorage.setItem("jsMenuxRol",strJson);
+    }); 
+//    $.getJSON("../js/txtJson3.json",function(data){        
+//        objJson=data;
+//        strJson=JSON.stringify(objJson);
+//        sessionStorage.setItem("txtJson3",strJson);
+//        sessionStorage.setItem("MenuxRol",strJson);
+//    });
     
     if(sessionStorage.getItem("loginintegrity")==="valido"){
         $(window).trigger("resize");
@@ -14,7 +31,7 @@ $(document).ready(function() {
         $("#btnGuardarClave").kendoButton({
             
         });
-        $("#divArbol").load("tree1.html"); 
+        $("#divArbol").load("tree2.html"); 
         document.getElementById("lbNombre").innerHTML = sessionStorage.getItem("usrnom");
         document.getElementById("lbEMail").innerHTML = sessionStorage.getItem("usrmail");    
         document.getElementById("imgUsuario").src = "../images/equipo/"+sessionStorage.getItem("usuario")+".png";
@@ -24,87 +41,35 @@ $(document).ready(function() {
     
     
 });
+
+
 $(window).resize(function() {
     var viewportHeight = $(window).height();
     $('#outerWrapper').height(viewportHeight-70);
   });
-  
-function cambiarimgPortafolio(){
-    apagarBotones("imgPortafolio");
-    var estado = document.getElementById("imgPortafolio").getAttribute("estado");     
-    if(estado == "off"){         
-        document.getElementById("imgPortafolio").src = "../images/transaccionesOn.png";
-        document.getElementById("imgPortafolio").setAttribute("estado", "on");
-        document.getElementById("imgPortafolio").setAttribute("onmouseover", "");
-        document.getElementById("imgPortafolio").setAttribute("onmouseout", "");
-        cambiarFondoTD("tdVerde");
-    }else if(estado == "on"){         
-        document.getElementById("imgPortafolio").src = "../images/transaccionesOff.png";
-        document.getElementById("imgPortafolio").setAttribute("estado", "off");
-        document.getElementById("imgPortafolio").setAttribute("onmouseover", "this.src='../images/transaccionesRO.png';");
-        document.getElementById("imgPortafolio").setAttribute("onmouseout", "this.src='../images/transaccionesOff.png';");
-        cambiarFondoTD("");
-    }     
-}
-
-function cambiarimgMisReportes(){
-    apagarBotones("imgMisReportes");
-    var estado = document.getElementById("imgMisReportes").getAttribute("estado");     
-    if(estado == "off"){         
-        document.getElementById("imgMisReportes").src = "../images/reportesOn.png";
-        document.getElementById("imgMisReportes").setAttribute("estado", "on");
-        document.getElementById("imgMisReportes").setAttribute("onmouseover", "");
-        document.getElementById("imgMisReportes").setAttribute("onmouseout", "");
-        cambiarFondoTD("tdNaraja");
-    }else if(estado == "on"){         
-        document.getElementById("imgMisReportes").src = "../images/reportesOff.png";
-        document.getElementById("imgMisReportes").setAttribute("estado", "off");
-        document.getElementById("imgMisReportes").setAttribute("onmouseover", "this.src='../images/reportesRO.png';");
-        document.getElementById("imgMisReportes").setAttribute("onmouseout", "this.src='../images/reportesOff.png';");
-        cambiarFondoTD("");
-    }     
-}
-
-function cambiarimgIndicadores(){
-    apagarBotones("imgIndicadores");
-    var estado = document.getElementById("imgIndicadores").getAttribute("estado");
+/**
+ * Cambia la imagen del menu izquierdo, cuyo id=imgId, por una imagen que muestre un estado activo(On). 
+ * @param {type} imgId 
+ * @param {type} estiloTd
+ * @returns {undefined}
+ */  
+function cambiarImagen(imgId, estiloTd){
+    var imgName=imgId.replace("img", "").toLowerCase();   
+    
+    var estado = document.getElementById(imgId).getAttribute("estado");
+    apagarBotones(imgId);
     
     if(estado == "off"){         
-        document.getElementById("imgIndicadores").src = "../images/indicadoresOn.png";
-        document.getElementById("imgIndicadores").setAttribute("estado", "on");
-        document.getElementById("imgIndicadores").setAttribute("onmouseover", "");
-        document.getElementById("imgIndicadores").setAttribute("onmouseout", "");
-        cambiarFondoTD("tdAzul");
-    }else if(estado == "on"){         
-        document.getElementById("imgIndicadores").src = "../images/indicadoresOff.png";
-        document.getElementById("imgIndicadores").setAttribute("estado", "off");
-        document.getElementById("imgIndicadores").setAttribute("onmouseover", "this.src='../images/indicadoresRO.png';");
-        document.getElementById("imgIndicadores").setAttribute("onmouseout", "this.src='../images/indicadoresOff.png';");
-        cambiarFondoTD("");
-    }     
+        document.getElementById(imgId).src = "../images/"+imgName+"On.png";
+        document.getElementById(imgId).setAttribute("estado", "on");
+        document.getElementById(imgId).setAttribute("onmouseover", "");
+        document.getElementById(imgId).setAttribute("onmouseout", "");
+        cambiarFondoTD(estiloTd);
+    }
 }
 
-function cambiarimgProcesos(){
-    apagarBotones("imgProcesos");
-    var estado = document.getElementById("imgProcesos").getAttribute("estado");
-    
-    if(estado == "off"){         
-        document.getElementById("imgProcesos").src = "../images/procesosOn.png";
-        document.getElementById("imgProcesos").setAttribute("estado", "on");
-        document.getElementById("imgProcesos").setAttribute("onmouseover", "");
-        document.getElementById("imgProcesos").setAttribute("onmouseout", "");
-        cambiarFondoTD("tdRojo");
-    }else if(estado == "on"){         
-        document.getElementById("imgProcesos").src = "../images/procesosOff.png";
-        document.getElementById("imgProcesos").setAttribute("estado", "off");
-        document.getElementById("imgProcesos").setAttribute("onmouseover", "this.src='../images/procesosRO.png';");
-        document.getElementById("imgProcesos").setAttribute("onmouseout", "this.src='../images/procesosOff.png';");        
-        cambiarFondoTD("");
-    }     
-}
 /**
  * Cambia el fondo del todos los td que tengan el atributo name="imgLogoIntegrity"
- * @returns {undefined}
  */
 function cambiarFondoTD(nombreClase){    
     if(nombreClase==""){        
@@ -117,18 +82,26 @@ function cambiarFondoTD(nombreClase){
         listaTdSuperior[i].className = nombreClase;
     }  
 }
-
+/**
+ * cambia el estado de todos los botones del menu vertical de la izquierda (Trasferencias, reportes, procesos, etc ) a off 
+ * excepto el del id que le pasemos, este quedara activo
+ */
 function apagarBotones(id){
     var imgMenu = document.getElementsByName("imgMenu");    
     for (var i=0; i<imgMenu.length; i++){        
-        if(imgMenu[i].id!=id && imgMenu[i].getAttribute("estado")!="off"){        
-            eval("cambiar"+imgMenu[i].id+"()");
+        if(imgMenu[i].id!=id && imgMenu[i].getAttribute("estado")!="off"){
+            var imgNombre=imgMenu[i].id.replace("img", "").toLowerCase();            
+            document.getElementById(imgMenu[i].id).src = "../images/"+imgNombre+"Off.png";
+            document.getElementById(imgMenu[i].id).setAttribute("estado", "off");
+            document.getElementById(imgMenu[i].id).setAttribute("onmouseover", "this.src='../images/"+imgNombre+"RO.png';");
+            document.getElementById(imgMenu[i].id).setAttribute("onmouseout", "this.src='../images/"+imgNombre+"Off.png';");
         }
     }
 }
-
-function ayuda(){
-        
+/**
+ * Abre la pagina de ayuda que esta almacenda como una variable de sesion, la pagina que despiegla por el momento esta en http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865sS
+ */
+function ayuda(){        
 	var video = sessionStorage.getItem("VideoAyuda");
 	if(video){
 		windowPopUp (video,"Ayuda");
@@ -141,7 +114,12 @@ function ayuda(){
 		alert(htmlText);
 	}
 }
-
+/**
+ * 
+ * @param {type} detalle 
+ * @param {type} titulo
+ * @returns {undefined}
+ */
 function  windowPopUp (detalle,titulo){
 	try{
 		$("#windowDiv").append("<div id='window'></div>");
@@ -171,6 +149,9 @@ function cambiarClave(){
 function guardarClave(){
     reemplazarDiv("cambiarClave","divBtCambiarClave");
 }
+/*
+ * Funcion reemplaza un div por otro, oculta el divOcultar y muestra el divMostrar con un leve efecto.
+ */
 function reemplazarDiv(divOcultar, divMostrar){
     document.getElementById(divOcultar).style.display = 'none';    
     $("#"+divMostrar).fadeIn("slow");
@@ -180,7 +161,9 @@ function mostrarArbol(){
     $("#perfil").fadeOut("slow");
     $("#divArbol").fadeIn("slow");
 }
-
+/*
+ * Funcion que se encarga de limpiar todas las variables de sesion y retornar a la pagina de login.
+ */
 function cerrarSesion(){
 	sessionStorage.clear();
 	window.location.assign("login.html");
