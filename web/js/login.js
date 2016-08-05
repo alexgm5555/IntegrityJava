@@ -5,6 +5,8 @@ var permitirIngreso
 
 
 function onLoad(){
+    sessionStorage.clear();
+    
     $("#btnLogin").kendoButton({
     });
 	
@@ -43,10 +45,9 @@ function login() {
                 sessionStorage.setItem("usrnom",resultado.response.dslogin.dslogin.eesicusuarios[0].usrnom);
                 sessionStorage.setItem("usuario",usuario);
                 sessionStorage.setItem("usrmail",resultado.response.dslogin.dslogin.eesicusuarios[0].usrmail);
-                sessionStorage.setItem("loginintegrity","valido");
-                alert(JSON.stringify(resultado.response.dslogin.dslogin.ttxmenuxusuario));
-                sessionStorage.setItem("txtJson3",JSON.stringify(resultado.response.dslogin.dslogin.ttxmenuxusuario));
-                afterLogin();
+                sessionStorage.setItem("loginintegrity","valido");                
+                sessionStorage.setItem("menuJsonIni",JSON.stringify(resultado.response.dslogin.dslogin.ttxmenuxusuario));
+                window.location.assign("html/index.html");
             }else{
                 console.log("Usuario no puede ingresar \n" + permitirIngreso);
                 alert("No se puede ingresar \n "+permitirIngreso);
@@ -73,20 +74,9 @@ function presionaEnter() {
     }, false);
 }
 
-function afterLogin(){    
-    alert("Usuario logeado correctamente en el sistema \n Bienvenido "+sessionStorage.getItem("usuario"));
-//    if(permitirIngreso=='"OK"'){                
-//        console.log("Usuario con permiso de ingresar \n" + permitirIngreso);
-//        sessionStorage.setItem("usrnom",resultado.response.dslogin.dslogin.eesicusuarios[0].usrnom);
-//        sessionStorage.setItem("usuario",usuario);
-//        sessionStorage.setItem("usrmail",resultado.response.dslogin.dslogin.eesicusuarios[0].usrmail);
-//        sessionStorage.setItem("loginintegrity","valido");
-//        sessionStorage.setItem("txtJson3",resultado.response.dslogin.dslogin.eesicusuarios[0].ttmenuxusuario)
-        window.location.assign("index.html");        
-//    }else{
-//        console.log("Usuario no puede ingresar \n" + permitirIngreso);
-//        alert("No se puede ingresar \n "+permitirIngreso);
-//    }
-    
-}
+//function afterLogin(){    
+//    alert("Usuario logeado correctamente en el sistema \n Bienvenido "+sessionStorage.getItem("usuario"));
+//            
+//    
+//}
 

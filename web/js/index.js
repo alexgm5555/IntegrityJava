@@ -2,26 +2,8 @@ var objJson;
 var strJson;
 
 $(document).ready(function() {
-    sessionStorage.setItem("usrnom","Fernando Chaparro");//despues de las pruebas se debe eliminar esta linea
-    sessionStorage.setItem("usuario","fchaparro");//despues de las pruebas se debe eliminar esta linea
-    sessionStorage.setItem("usrmail","fchaparro@quantumltda.com"); //despues de las pruebas se debe eliminar esta linea
-    sessionStorage.setItem("loginintegrity","valido"); //despues de las pruebas se debe eliminar esta linea
     sessionStorage.setItem("VideoAyuda","http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865s");//cambiar urlVideo con url link apenas este listo el video de ayuda   
-    sessionStorage.setItem("pcf","PORTAL NOMINA");
-    sessionStorage.setItem("ncf","PORTAL NOMINA");
-    $.getJSON("js/txtJson2.json",function(data){        
-        objJson=data;
-        strJson=JSON.stringify(objJson);
-        sessionStorage.setItem("txtJson2",strJson);
-//        sessionStorage.setItem("jsMenuxRol",strJson);
-    }); 
-//    $.getJSON("js/txtJson3.json",function(data){        
-//        objJson=data;
-//        strJson=JSON.stringify(objJson);
-//        sessionStorage.setItem("txtJson3",strJson);
-//        sessionStorage.setItem("MenuxRol",strJson);
-//    });
-    
+        
     if(sessionStorage.getItem("loginintegrity")==="valido"){
         $(window).trigger("resize");
     
@@ -31,10 +13,10 @@ $(document).ready(function() {
         $("#btnGuardarClave").kendoButton({
             
         });
-        $("#divArbol").load("tree2.html"); 
+        menufunciones();        
         document.getElementById("lbNombre").innerHTML = sessionStorage.getItem("usrnom");
         document.getElementById("lbEMail").innerHTML = sessionStorage.getItem("usrmail");    
-        document.getElementById("imgUsuario").src = "images/equipo/"+sessionStorage.getItem("usuario")+".png";
+        document.getElementById("imgUsuario").src = "../images/equipo/"+sessionStorage.getItem("usuario")+".png";
     }else{
         window.location.assign("login.html");
     }
@@ -60,7 +42,7 @@ function cambiarImagen(imgId, estiloTd){
     apagarBotones(imgId);
     
     if(estado == "off"){         
-        document.getElementById(imgId).src = "images/"+imgName+"On.png";
+        document.getElementById(imgId).src = "../images/"+imgName+"On.png";
         document.getElementById(imgId).setAttribute("estado", "on");
         document.getElementById(imgId).setAttribute("onmouseover", "");
         document.getElementById(imgId).setAttribute("onmouseout", "");
@@ -73,9 +55,9 @@ function cambiarImagen(imgId, estiloTd){
  */
 function cambiarFondoTD(nombreClase){    
     if(nombreClase==""){        
-        document.getElementById("imgLogoIntegrity").src = "images/Login Inicio-07.png";
+        document.getElementById("imgLogoIntegrity").src = "../images/Login Inicio-07.png";
     }else{
-        document.getElementById("imgLogoIntegrity").src = "images/logo-08.png";
+        document.getElementById("imgLogoIntegrity").src = "../images/logo-08.png";
     }    
     var listaTdSuperior = document.getElementsByName("tdSuperior");    
     for (var i=0; i<listaTdSuperior.length; i++){
@@ -91,10 +73,10 @@ function apagarBotones(id){
     for (var i=0; i<imgMenu.length; i++){        
         if(imgMenu[i].id!=id && imgMenu[i].getAttribute("estado")!="off"){
             var imgNombre=imgMenu[i].id.replace("img", "").toLowerCase();            
-            document.getElementById(imgMenu[i].id).src = "images/"+imgNombre+"Off.png";
+            document.getElementById(imgMenu[i].id).src = "../images/"+imgNombre+"Off.png";
             document.getElementById(imgMenu[i].id).setAttribute("estado", "off");
-            document.getElementById(imgMenu[i].id).setAttribute("onmouseover", "this.src='images/"+imgNombre+"RO.png';");
-            document.getElementById(imgMenu[i].id).setAttribute("onmouseout", "this.src='images/"+imgNombre+"Off.png';");
+            document.getElementById(imgMenu[i].id).setAttribute("onmouseover", "this.src='../images/"+imgNombre+"RO.png';");
+            document.getElementById(imgMenu[i].id).setAttribute("onmouseout", "this.src='../images/"+imgNombre+"Off.png';");
         }
     }
 }
@@ -167,4 +149,26 @@ function mostrarArbol(){
 function cerrarSesion(){
 	sessionStorage.clear();
 	window.location.assign("login.html");
+}
+/*
+ * reestructura el json que esta en menuJsonIni y lo trasnforma de tal forma que sea util para enviarlo a la pag tree2.html la cual muestra una arbol
+ */
+function menufunciones() {
+	var dataarbol = sessionStorage.getItem("menuJsonIni");	
+        debugger
+	var txtJson;	
+	if (dataarbol) {
+		//sessionStorage.setItem("txtJson3", dataarbol);
+		//dataarbol = modificarJSON2(dataarbol);
+		dataarbol = dataarbol.replace(/Codigo/g, "id"); 
+		dataarbol = dataarbol.replace(/Depende/g, "parent");
+		dataarbol = dataarbol.replace(/Nombre/g, "text");
+		dataarbol = dataarbol.replace(/Imagen/g, "icon");
+		dataarbol = dataarbol.replace(/CON IMAGEN/g, "../css/images/leaf.gif");
+		dataarbol = dataarbol.replace(/SIN IMAGEN/g, "");
+		txtJson = "{ \"plugins\" : [],\"core\" : { \"data\" : " + dataarbol + "}}";
+		sessionStorage.setItem("txtJson2", txtJson);
+                $("#divArbol").load("tree2.html"); 
+	}
+
 }
