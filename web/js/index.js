@@ -31,7 +31,7 @@ $(window).resize(function() {
     $('#outerWrapper').height(viewportHeight-70);
   });
 /**
- * Cambia la imagen del menu izquierdo, cuyo id=imgId, por una imagen que muestre un estado activo(On). 
+ * Cambia la imagen del menu izquierdo, cuyo id=imgId, por una imagen que muestre un estado activo(On) y cambia la URL del iframe. 
  * @param {type} imgId 
  * @param {type} estiloTd
  * @returns {undefined}
@@ -41,7 +41,7 @@ function cambiarImagen(imgId, estiloTd){
     
     var estado = document.getElementById(imgId).getAttribute("estado");
     apagarBotones(imgId);
-    debugger
+
     if(estado == "off"){
         var servicio = document.getElementById(imgId).getAttribute("servicio");
         document.getElementById(imgId).src = "../images/"+imgName+"On.png";

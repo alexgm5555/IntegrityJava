@@ -10,10 +10,15 @@ body {
 }
 table{
     border-spacing: 0;
-    border-collapse: collapse;
+    border-collapse: collapse;    
 }
 tr{
     vertical-align: top;
+    border-color: red;
+}
+
+td{
+    padding: 0;
 }
 .tdAzul{
     background-color: #23ADDE
@@ -31,9 +36,6 @@ tr{
     background-color: #80BD28
 }
 
-.divOculto{
-   display:none;
-}
 .tdPerfil{
   text-align: center;
   padding-top: 10px;
@@ -49,15 +51,14 @@ tr{
 #divArbol {
   height:100%;  
 }
-#iframe{
+#divIFrame{
   height:100%;  
+  border: 0;
+  background-color: white;  
 }
 img{
     display:inline-block;
     border: 0;
-}
-#iFrame{
-    margin: 10px
 }
 
 #divArbol{
@@ -65,5 +66,19 @@ img{
     width:300px;
     z-index: 10;
     background:#47484a;;
+}
+.tdIFrame{      
+  padding: 0px;
+}
+
+.flotada
+{
+  float: top;  
+}
+
+#capa_externa , .flotada
+{
+  margin: 0;
+  padding: 0;  
 }
 
