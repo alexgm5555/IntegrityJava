@@ -1,5 +1,6 @@
 var objJson;
 var strJson;
+var urlIFrame = "http://172.21.24.146:18800/sbm/BizSolo/"
 
 $(document).ready(function() {
     sessionStorage.setItem("VideoAyuda","http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865s");//cambiar urlVideo con url link apenas este listo el video de ayuda   
@@ -40,12 +41,15 @@ function cambiarImagen(imgId, estiloTd){
     
     var estado = document.getElementById(imgId).getAttribute("estado");
     apagarBotones(imgId);
-    
-    if(estado == "off"){         
+    debugger
+    if(estado == "off"){
+        var servicio = document.getElementById(imgId).getAttribute("servicio");
         document.getElementById(imgId).src = "../images/"+imgName+"On.png";
         document.getElementById(imgId).setAttribute("estado", "on");
         document.getElementById(imgId).setAttribute("onmouseover", "");
         document.getElementById(imgId).setAttribute("onmouseout", "");
+        document.getElementById(imgId).getAttribute("servicio");        
+        document.getElementById("idFrame").src = urlIFrame+servicio+"/Start.jsp";
         cambiarFondoTD(estiloTd);
     }
 }
@@ -155,11 +159,8 @@ function cerrarSesion(){
  */
 function menufunciones() {
 	var dataarbol = sessionStorage.getItem("menuJsonIni");	
-        debugger
 	var txtJson;	
 	if (dataarbol) {
-		//sessionStorage.setItem("txtJson3", dataarbol);
-		//dataarbol = modificarJSON2(dataarbol);
 		dataarbol = dataarbol.replace(/Codigo/g, "id"); 
 		dataarbol = dataarbol.replace(/Depende/g, "parent");
 		dataarbol = dataarbol.replace(/Nombre/g, "text");

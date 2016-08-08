@@ -60,3 +60,10 @@ img{
     margin: 10px
 }
 
+#divArbol{
+    position: absolute;    
+    width:300px;
+    z-index: 10;
+    background:#47484a;;
+}
+

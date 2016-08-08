@@ -18,7 +18,7 @@ function onLoad(){
  * 
  */
 function login() {
-    
+    debugger
     var validator = $("#formLogin").kendoValidator().data("kendoValidator"),
         status = $(".status");
 
@@ -73,10 +73,4 @@ function presionaEnter() {
         }
     }, false);
 }
-
-//function afterLogin(){    
-//    alert("Usuario logeado correctamente en el sistema \n Bienvenido "+sessionStorage.getItem("usuario"));
-//            
-//    
-//}
 
