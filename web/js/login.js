@@ -1,11 +1,13 @@
 
 var usuario;
 var password;
-var permitirIngreso
+var permitirIngreso;
+ var validator;
 
 
 function onLoad(){
     sessionStorage.clear();
+    validator = $("#formLogin").kendoValidator().data("kendoValidator");
     
     $("#btnLogin").kendoButton({
     });
@@ -18,16 +20,11 @@ function onLoad(){
  * 
  */
 function login() {
-    debugger
-    var validator = $("#formLogin").kendoValidator().data("kendoValidator"),
-        status = $(".status");
+    
+    validator = $("#formLogin").kendoValidator().data("kendoValidator");
+    var status = $(".status");
 
     if (validator.validate()) {
-        
-        status.text("Hooray! Your tickets has been booked!")
-                .removeClass("invalid")
-                .addClass("valid");
-        
         
         usuario = $("#usuario").val();
         password = $("#password").val();
@@ -37,7 +34,8 @@ function login() {
         
         jQuery.get(loginUrl,{
         },function(resultado){           
-            var permitirIngreso = JSON.stringify(resultado.response.dslogin.dslogin.ttestado[0].pocestado);
+            permitirIngreso = JSON.stringify(resultado.response.dslogin.dslogin.ttestado[0].pocestado);
+            
             console.log(loginUrl+"\n"+permitirIngreso);
             
             if(permitirIngreso=='"OK"'){                
@@ -49,14 +47,12 @@ function login() {
                 sessionStorage.setItem("menuJsonIni",JSON.stringify(resultado.response.dslogin.dslogin.ttxmenuxusuario));
                 window.location.assign("html/index.html");
             }else{
-                console.log("Usuario no puede ingresar \n" + permitirIngreso);
-                alert("No se puede ingresar \n "+permitirIngreso);
+                status.text(permitirIngreso)
+                console.log("Usuario no puede ingresar \n" + permitirIngreso);                
             }
         });
-    } else {
-        status.text("Oops! There is invalid data in the form.")
-            .removeClass("valid")
-            .addClass("invalid");
+    }else{
+        status.text("Datos incompletos")
     }
 }
 

@@ -23,6 +23,12 @@
     padding-right: 5px;
 }
 
+#fieldlist li.status {
+    text-align: center;
+    color: red;
+    font-size: 80%;
+    
+}
 
 .k-primary {
     min-width: 150px;

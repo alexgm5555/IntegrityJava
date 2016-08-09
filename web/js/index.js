@@ -1,6 +1,7 @@
 var objJson;
 var strJson;
 var urlIFrame = "http://172.21.24.146:18800/sbm/BizSolo/"
+var validator;
 
 $(document).ready(function() {
     sessionStorage.setItem("VideoAyuda","http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865s");//cambiar urlVideo con url link apenas este listo el video de ayuda   
@@ -14,10 +15,13 @@ $(document).ready(function() {
         $("#btnGuardarClave").kendoButton({
             
         });
+        validator = $("#ticketsForm").kendoValidator().data("kendoValidator"),
+        status = $(".status");
         menufunciones();        
         document.getElementById("lbNombre").innerHTML = sessionStorage.getItem("usrnom");
         document.getElementById("lbEMail").innerHTML = sessionStorage.getItem("usrmail");    
         document.getElementById("imgUsuario").src = "../images/equipo/"+sessionStorage.getItem("usuario")+".png";
+        
     }else{
         window.location.assign("login.html");
     }
@@ -50,6 +54,7 @@ function cambiarImagen(imgId, estiloTd){
         document.getElementById(imgId).setAttribute("onmouseout", "");
         document.getElementById(imgId).getAttribute("servicio");        
         document.getElementById("idFrame").src = urlIFrame+servicio+"/Start.jsp";
+        document.getElementById("tdPerfil").style="display:none"
         cambiarFondoTD(estiloTd);
     }
 }
@@ -128,12 +133,21 @@ function  windowPopUp (detalle,titulo){
 	}
 }
 
-function cambiarClave(){    
-    reemplazarDiv("divBtCambiarClave", "cambiarClave");
+function cambiarClave(){
+    reemplazarDiv("divBtCambiarClave", "cambiarClave");    
 }
 
 function guardarClave(){
-    reemplazarDiv("cambiarClave","divBtCambiarClave");
+    var validator = $("#formClave").kendoValidator().data("kendoValidator");    
+    
+    if (validator.validate()){
+        if(document.getElementById("IpClave").value==document.getElementById("IpRClave").value){
+            alert("continuar");
+            reemplazarDiv("cambiarClave","divBtCambiarClave");
+        }else{
+            status.text("Datos incompletos");            
+        }  
+    }
 }
 /*
  * Funcion reemplaza un div por otro, oculta el divOcultar y muestra el divMostrar con un leve efecto.
@@ -172,4 +186,14 @@ function menufunciones() {
                 $("#divArbol").load("tree2.html"); 
 	}
 
+}
+
+function inicio(){
+    window.location.assign("index.html");
+}
+
+function documentos(){
+    servicio="Documentos";
+    $("#tdPerfil").fadeOut("slow");
+    document.getElementById("idFrame").src = urlIFrame+servicio+"/Start.jsp";      
 }

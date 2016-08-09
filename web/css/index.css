@@ -56,8 +56,7 @@ td{
   border: 0;
   background-color: white;  
 }
-img{
-    display:inline-block;
+img{    
     border: 0;
 }
 
@@ -67,18 +66,3 @@ img{
     z-index: 10;
     background:#47484a;;
 }
-.tdIFrame{      
-  padding: 0px;
-}
-
-.flotada
-{
-  float: top;  
-}
-
-#capa_externa , .flotada
-{
-  margin: 0;
-  padding: 0;  
-}
-
