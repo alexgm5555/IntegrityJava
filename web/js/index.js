@@ -1,23 +1,28 @@
-var objJson;
-var strJson;
 var urlIFrame = "http://172.21.24.146:18800/sbm/BizSolo/"
-var validator;
+var arreglo_funCod = new Array();
+var arreglo_funDes = new Array();
+var arreglo_funIco = new Array();
+var arreglo_funUrl = new Array();
+var arreglo_funProg = new Array();
+var arreglo_funVideo = new Array();
+var arreglo_funRepor = new Array();
 
 $(document).ready(function() {
     sessionStorage.setItem("VideoAyuda","http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865s");//cambiar urlVideo con url link apenas este listo el video de ayuda   
-        
+    sessionStorage.setItem("cabeceraNew","");
+    sessionStorage.setItem("cabeceraLast","");
+    sessionStorage.setItem("cabeceraLlaves","");
+    
     if(sessionStorage.getItem("loginintegrity")==="valido"){
         $(window).trigger("resize");
-    
+        
         $("#btnCambiarClave").kendoButton({
             
         });
         $("#btnGuardarClave").kendoButton({
             
         });
-        validator = $("#ticketsForm").kendoValidator().data("kendoValidator"),
-        status = $(".status");
-        menufunciones();        
+        menufunciones();
         document.getElementById("lbNombre").innerHTML = sessionStorage.getItem("usrnom");
         document.getElementById("lbEMail").innerHTML = sessionStorage.getItem("usrmail");    
         document.getElementById("imgUsuario").src = "../images/equipo/"+sessionStorage.getItem("usuario")+".png";
@@ -33,7 +38,7 @@ $(document).ready(function() {
 $(window).resize(function() {
     var viewportHeight = $(window).height();
     $('#outerWrapper').height(viewportHeight-70);
-  });
+});
 /**
  * Cambia la imagen del menu izquierdo, cuyo id=imgId, por una imagen que muestre un estado activo(On) y cambia la URL del iframe. 
  * @param {type} imgId 
@@ -41,20 +46,21 @@ $(window).resize(function() {
  * @returns {undefined}
  */  
 function cambiarImagen(imgId, estiloTd){
-    var imgName=imgId.replace("img", "").toLowerCase();   
-    
+    var imgName=imgId.replace("img", "").toLowerCase();    
     var estado = document.getElementById(imgId).getAttribute("estado");
     apagarBotones(imgId);
-
+    
     if(estado == "off"){
         var servicio = document.getElementById(imgId).getAttribute("servicio");
         document.getElementById(imgId).src = "../images/"+imgName+"On.png";
         document.getElementById(imgId).setAttribute("estado", "on");
-        document.getElementById(imgId).setAttribute("onmouseover", "");
+        document.getElementById(imgId).setAttribute("onmouseover", "ocultarArbol();");
         document.getElementById(imgId).setAttribute("onmouseout", "");
-        document.getElementById(imgId).getAttribute("servicio");        
-        document.getElementById("idFrame").src = urlIFrame+servicio+"/Start.jsp";
-        document.getElementById("tdPerfil").style="display:none"
+        document.getElementById(imgId).getAttribute("servicio");
+        if(servicio!=""){
+            document.getElementById("idFrame").src = urlIFrame+servicio+"/Start.jsp";
+            document.getElementById("tdPerfil").style="display:none"
+        }        
         cambiarFondoTD(estiloTd);
     }
 }
@@ -83,8 +89,12 @@ function apagarBotones(id){
         if(imgMenu[i].id!=id && imgMenu[i].getAttribute("estado")!="off"){
             var imgNombre=imgMenu[i].id.replace("img", "").toLowerCase();            
             document.getElementById(imgMenu[i].id).src = "../images/"+imgNombre+"Off.png";
-            document.getElementById(imgMenu[i].id).setAttribute("estado", "off");
-            document.getElementById(imgMenu[i].id).setAttribute("onmouseover", "this.src='../images/"+imgNombre+"RO.png';");
+            document.getElementById(imgMenu[i].id).setAttribute("estado", "off");            
+            if(imgNombre=="Transacciones"){
+                document.getElementById(imgMenu[i].id).setAttribute("onmouseover", "this.src='../images/"+imgNombre+"RO.png'; mostrarArbol();");
+            }else{
+                document.getElementById(imgMenu[i].id).setAttribute("onmouseover", "this.src='../images/"+imgNombre+"RO.png'; ocultarArbol();");
+            }
             document.getElementById(imgMenu[i].id).setAttribute("onmouseout", "this.src='../images/"+imgNombre+"Off.png';");
         }
     }
@@ -93,17 +103,17 @@ function apagarBotones(id){
  * Abre la pagina de ayuda que esta almacenda como una variable de sesion, la pagina que despiegla por el momento esta en http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865sS
  */
 function ayuda(){        
-	var video = sessionStorage.getItem("VideoAyuda");
-	if(video){
-		windowPopUp (video,"Ayuda");
-	}else{
-		var htmlText= '<html><head><title>Soporte</title></head><body><p align="center">'+
+    var video = sessionStorage.getItem("VideoAyuda");
+    if(video){
+        windowPopUp (video,"Ayuda");
+    }else{
+        var htmlText= '<html><head><title>Soporte</title></head><body><p align="center">'+
 		'<img src="images/ayuda-52.png" alt="Soporte" width="200" height="45"><br></br></p>'+
 		'<p align="center" style="font-family:Tahoma;font-size:10pt;">Visite nuestro '+
 		'canal de tutoriales <b>Integrity</b> y conozca todas las posibilidades de nuestro sistema.'+
 		'<br></br></p><p align="center"><img src="images/video.png" alt="Soporte" width="500" height="307"></p></body></html>';
-		alert(htmlText);
-	}
+        alert(htmlText);
+    }
 }
 /**
  * 
@@ -112,25 +122,25 @@ function ayuda(){
  * @returns {undefined}
  */
 function  windowPopUp (detalle,titulo){
-	try{
-		$("#windowDiv").append("<div id='window'></div>");
-		var win = $("#window").kendoWindow({
-			draggable: true,
-			height: "90%",
-			modal: true,
-			resizable: false,
-			title: titulo,
-			width: "1300px",
-			content: detalle,
-			close: function() {
-				this.destroy(); 
-			}
-		}).data("kendoWindow");
-                win.center()
-		win.open();
-	}catch(e){
-		alert("Function: windowPopUp Error: "+e.message);
-	}
+    try{
+        $("#windowDiv").append("<div id='window'></div>");
+        var win = $("#window").kendoWindow({
+            draggable: true,
+            height: "90%",
+            modal: true,
+            resizable: false,
+            title: titulo,
+            width: "1300px",
+            content: detalle,
+            close: function() {
+                this.destroy(); 
+            }
+        }).data("kendoWindow");
+        win.center()
+        win.open();
+    }catch(e){
+        alert("Function: windowPopUp Error: "+e.message);
+    }
 }
 
 function cambiarClave(){
@@ -138,15 +148,11 @@ function cambiarClave(){
 }
 
 function guardarClave(){
-    var validator = $("#formClave").kendoValidator().data("kendoValidator");    
-    
-    if (validator.validate()){
-        if(document.getElementById("IpClave").value==document.getElementById("IpRClave").value){
-            alert("continuar");
-            reemplazarDiv("cambiarClave","divBtCambiarClave");
-        }else{
-            status.text("Datos incompletos");            
-        }  
+    if(document.getElementById("IpClave").value==document.getElementById("IpRClave").value){
+        alert("continuar");
+        reemplazarDiv("cambiarClave","divBtCambiarClave");
+    }else{
+        status.text("Datos incompletos");            
     }
 }
 /*
@@ -157,35 +163,38 @@ function reemplazarDiv(divOcultar, divMostrar){
     $("#"+divMostrar).fadeIn("slow");
 }
 
-function mostrarArbol(){
-    $("#perfil").fadeOut("slow");
+function mostrarArbol(){    
     $("#divArbol").fadeIn("slow");
+}
+function ocultarArbol(){
+    $("#divArbol").fadeOut("slow");
 }
 /*
  * Funcion que se encarga de limpiar todas las variables de sesion y retornar a la pagina de login.
  */
 function cerrarSesion(){
-	sessionStorage.clear();
-	window.location.assign("login.html");
+    sessionStorage.clear();
+    window.location.assign("login.html");
 }
 /*
  * reestructura el json que esta en menuJsonIni y lo trasnforma de tal forma que sea util para enviarlo a la pag tree2.html la cual muestra una arbol
  */
 function menufunciones() {
-	var dataarbol = sessionStorage.getItem("menuJsonIni");	
-	var txtJson;	
-	if (dataarbol) {
-		dataarbol = dataarbol.replace(/Codigo/g, "id"); 
-		dataarbol = dataarbol.replace(/Depende/g, "parent");
-		dataarbol = dataarbol.replace(/Nombre/g, "text");
-		dataarbol = dataarbol.replace(/Imagen/g, "icon");
-		dataarbol = dataarbol.replace(/CON IMAGEN/g, "../css/images/leaf.gif");
-		dataarbol = dataarbol.replace(/SIN IMAGEN/g, "");
-		txtJson = "{ \"plugins\" : [],\"core\" : { \"data\" : " + dataarbol + "}}";
-		sessionStorage.setItem("txtJson2", txtJson);
-                $("#divArbol").load("tree2.html"); 
-	}
-
+    var dataarbol = sessionStorage.getItem("menuJsonIni");	
+    var txtJson;	
+    if (dataarbol) {
+        dataarbol = dataarbol.replace(/Codigo/g, "id"); 
+        dataarbol = dataarbol.replace(/Depende/g, "parent");
+        dataarbol = dataarbol.replace(/Nombre/g, "text");
+        dataarbol = dataarbol.replace(/Imagen/g, "icon");
+        dataarbol = dataarbol.replace(/CON IMAGEN/g, "../css/images/leaf.gif");
+        dataarbol = dataarbol.replace(/SIN IMAGEN/g, "");
+        dataarbol = dataarbol.replace(/Servicio/g, "columna5");
+        txtJson = "{ \"plugins\" : [],\"core\" : { \"data\" : " + dataarbol + "}}";
+        sessionStorage.setItem("txtJson2", txtJson);
+        $("#divArbol").load("tree2.html"); 
+    }
+    
 }
 
 function inicio(){
@@ -196,4 +205,52 @@ function documentos(){
     servicio="Documentos";
     $("#tdPerfil").fadeOut("slow");
     document.getElementById("idFrame").src = urlIFrame+servicio+"/Start.jsp";      
+}
+
+function abreFuncion(servicio){    
+    $("#tdPerfil").fadeOut("slow");
+    apagarBotones();
+    cambiarFondoTD("tdVerde")
+    document.getElementById("idFrame").src = urlIFrame+servicio+"/Start.jsp";
+}
+
+function fijarPcf(){//apenas el usuario da click en alguna funcion del arbol tree2.html regresa a esta funcion con el nombre de la funcion y el id 
+    try{        
+        var dataarbol=sessionStorage.getItem("txtJson2");        
+        var datas = JSON.parse(dataarbol);
+        for(var i=0;i<datas.core.data.length;i++){//for para montar los datos en unas variables que van a ser utilizadas para identificar la fun seleccionada
+            var funCod = datas.core.data[i].id;
+            var funDes = datas.core.data[i].text;
+            var funIco = datas.core.data[i].icon;
+            var funUrl = datas.core.data[i].columna5;
+            var funProg = datas.core.data[i].Programa;
+            var funVideo = datas.core.data[i].Tablas;
+            var funRepor = datas.core.data[i].Parametro;
+            //var funUrl = "TiposContabilizacion/Start.jsp";
+            arreglo_funCod[i] = funCod;
+            arreglo_funDes[i] = funDes;
+            arreglo_funIco[i] = funIco;
+            arreglo_funUrl[i] = funUrl;
+            arreglo_funProg[i] = funProg;
+            arreglo_funVideo[i] = funVideo;
+            arreglo_funRepor[i] = funRepor;
+        }
+        debugger
+        var idFSelect = sessionStorage.getItem("pcf");
+        var textFSelec =  arreglo_funDes[arreglo_funCod.indexOf(idFSelect)];
+        var urlFSelec =  arreglo_funUrl[arreglo_funCod.indexOf(idFSelect)];
+        var urlVideo =  arreglo_funVideo[arreglo_funCod.indexOf(idFSelect)];
+        var urlRepor =  arreglo_funRepor[arreglo_funCod.indexOf(idFSelect)];
+        sessionStorage.setItem("pcf","");
+        if((!urlFSelec)&&(arreglo_funProg[arreglo_funCod.indexOf(idFSelect)])){
+            urlFSelec = "caracter"+arreglo_funProg[arreglo_funCod.indexOf(idFSelect)];
+        }        
+        else if(urlRepor!=""){
+            sessionStorage.setItem("idrepcon",urlRepor);
+        }        
+        sessionStorage.setItem("VideoAyuda",urlVideo);
+        abreFuncion(urlFSelec);
+        ocultarArbol();
+        
+    }catch(e){alert(e.message + " fijarPcf()");}
 }

@@ -2,7 +2,7 @@
 var usuario;
 var password;
 var permitirIngreso;
- var validator;
+var validator;
 
 
 function onLoad(){
@@ -12,7 +12,7 @@ function onLoad(){
     $("#btnLogin").kendoButton({
     });
 	
-    //presionaEnter();
+    presionaEnter();
 }
 
 /*
@@ -23,45 +23,34 @@ function login() {
     
     validator = $("#formLogin").kendoValidator().data("kendoValidator");
     var status = $(".status");
-$.ajax({
-			type: "GET",
-			url: "http://190.144.16.114:8810/rest/Base/BaseIntegrity/Jornadas/aduarte/0",
-			contentType: "application/json",
-			success: function(resp){  
-				alert(JSON.stringify(resp));  
-			},
-			error:function(e){
-				alert("Error"+e)
-			}
-		})
+
     if (validator.validate()) {
         
-//        usuario = $("#usuario").val();
-//        password = $("#password").val();
-//              
-//        var loginUrl = 'http://190.144.16.114:8810/rest/Base/BaseIntegrity/Login/'+ usuario + '/' + password + '/582372082679954432';             
+        usuario = $("#usuario").val();
+        password = $("#password").val();
+              
+        var loginUrl = 'http://190.144.16.114:8810/rest/Base/BaseIntegrity/Login/'+ usuario + '/' + password + '/582372082679954432';             
        
         
-//        jQuery.get(loginUrl,{
-//        },function(resultado){           
-//            permitirIngreso = JSON.stringify(resultado.response.dslogin.dslogin.ttestado[0].pocestado);
-//            
-//            console.log(loginUrl+"\n"+permitirIngreso);
-//            
-//            if(permitirIngreso=='"OK"'){                
-//                console.log("Usuario con permiso de ingresar \n" + permitirIngreso);
-//                sessionStorage.setItem("usrnom",resultado.response.dslogin.dslogin.eesicusuarios[0].usrnom);
-//                sessionStorage.setItem("usuario",usuario);
-//                sessionStorage.setItem("usrmail",resultado.response.dslogin.dslogin.eesicusuarios[0].usrmail);
-//                sessionStorage.setItem("loginintegrity","valido");                
-//                sessionStorage.setItem("menuJsonIni",JSON.stringify(resultado.response.dslogin.dslogin.ttxmenuxusuario));
-//                window.location.assign("html/index.html");
-//            }else{
-//                status.text(permitirIngreso)
-//                console.log("Usuario no puede ingresar \n" + permitirIngreso);                
-//            }
-//        });
-       
+        jQuery.get(loginUrl,{
+        },function(resultado){           
+            permitirIngreso = JSON.stringify(resultado.response.dslogin.dslogin.ttestado[0].pocestado);
+            
+            console.log(loginUrl+"\n"+permitirIngreso);
+            
+            if(permitirIngreso=='"OK"'){                
+                console.log("Usuario con permiso de ingresar \n" + permitirIngreso);
+                sessionStorage.setItem("usrnom",resultado.response.dslogin.dslogin.eesicusuarios[0].usrnom);
+                sessionStorage.setItem("usuario",usuario);
+                sessionStorage.setItem("usrmail",resultado.response.dslogin.dslogin.eesicusuarios[0].usrmail);
+                sessionStorage.setItem("loginintegrity","valido");                
+                sessionStorage.setItem("menuJsonIni",JSON.stringify(resultado.response.dslogin.dslogin.ttxmenuxusuario));
+                window.location.assign("html/index.html");
+            }else{
+                status.text(permitirIngreso)
+                console.log("Usuario no puede ingresar \n" + permitirIngreso);                
+            }
+        });
     }else{
         status.text("Datos incompletos")
     }
@@ -80,4 +69,3 @@ function presionaEnter() {
         }
     }, false);
 }
-
