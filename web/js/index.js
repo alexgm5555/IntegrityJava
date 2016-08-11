@@ -37,7 +37,7 @@ $(document).ready(function() {
 
 $(window).resize(function() {
     var viewportHeight = $(window).height();
-    $('#outerWrapper').height(viewportHeight-70);
+    $('#outerWrapper').height(viewportHeight-60);
 });
 /**
  * Cambia la imagen del menu izquierdo, cuyo id=imgId, por una imagen que muestre un estado activo(On) y cambia la URL del iframe. 
@@ -90,7 +90,7 @@ function apagarBotones(id){
             var imgNombre=imgMenu[i].id.replace("img", "").toLowerCase();            
             document.getElementById(imgMenu[i].id).src = "../images/"+imgNombre+"Off.png";
             document.getElementById(imgMenu[i].id).setAttribute("estado", "off");            
-            if(imgNombre=="Transacciones"){
+            if(imgNombre=="imgTransacciones"){
                 document.getElementById(imgMenu[i].id).setAttribute("onmouseover", "this.src='../images/"+imgNombre+"RO.png'; mostrarArbol();");
             }else{
                 document.getElementById(imgMenu[i].id).setAttribute("onmouseover", "this.src='../images/"+imgNombre+"RO.png'; ocultarArbol();");
@@ -235,7 +235,6 @@ function fijarPcf(){//apenas el usuario da click en alguna funcion del arbol tre
             arreglo_funVideo[i] = funVideo;
             arreglo_funRepor[i] = funRepor;
         }
-        debugger
         var idFSelect = sessionStorage.getItem("pcf");
         var textFSelec =  arreglo_funDes[arreglo_funCod.indexOf(idFSelect)];
         var urlFSelec =  arreglo_funUrl[arreglo_funCod.indexOf(idFSelect)];
