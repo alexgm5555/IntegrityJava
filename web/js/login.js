@@ -24,7 +24,7 @@ function login() {
     password = $("#password").val();
 
     try {
-        var data = "{"
+var datos = "{"
 +"  \"dslogin\": {"
 +"    \"ttdatauser\": ["
 +"      {"
@@ -38,23 +38,25 @@ function login() {
 +""
 +""
 +"}";
-        var jSonData = JSON.parse(data);
+        var jSonData = JSON.parse(datos);
         var objResponse = {};
         var objEstado = {};
         $.ajax({
             type: "POST",
-            data: data,
+            data: JSON.stringify(jSonData),
             url: "http://190.144.16.114:8810/rest/Base/BaseIntegrity/Login",
-            contentType: "application/json",
+            dataType : "json",
+    contentType: "application/json;",
             success: function (resp) {
-                alert(JSON.parse(resp))
+                alert("hola")
             },
             error: function (e) {
                 alert("Error" + JSON.stringify(e));
             }
         }).done(function () { //use this
-            //afterAjax(objResponse, objEstado);
+            alert("hola");
         });
+    
     } catch (e) {
         alert("Function: consumeServAjaxSIR Error: " + e.message);
     }
