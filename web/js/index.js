@@ -12,6 +12,16 @@ $(document).ready(function() {
     sessionStorage.setItem("cabeceraNew","");
     sessionStorage.setItem("cabeceraLast","");
     sessionStorage.setItem("cabeceraLlaves","");
+    sessionStorage.setItem("usrnom","Fernando Chaparro");//despues de las pruebas se debe eliminar esta linea
+    sessionStorage.setItem("usuario","fchaparro");//despues de las pruebas se debe eliminar esta linea
+    sessionStorage.setItem("usrmail","fchaparro@quantumltda.com"); //despues de las pruebas se debe eliminar esta linea
+    sessionStorage.setItem("loginintegrity","valido"); //despues de las pruebas se debe eliminar esta linea  
+    
+    $.getJSON("../js/txtJson2.json",function(data){        
+        objJson=data;
+        strJson=JSON.stringify(objJson);
+        sessionStorage.setItem("menuJsonIni",strJson);
+    }); 
     
     if(sessionStorage.getItem("loginintegrity")==="valido"){
         $(window).trigger("resize");
@@ -183,18 +193,17 @@ function menufunciones() {
     var dataarbol = sessionStorage.getItem("menuJsonIni");	
     var txtJson;	
     if (dataarbol) {
-        dataarbol = dataarbol.replace(/Codigo/g, "id"); 
-        dataarbol = dataarbol.replace(/Depende/g, "parent");
-        dataarbol = dataarbol.replace(/Nombre/g, "text");
-        dataarbol = dataarbol.replace(/Imagen/g, "icon");
-        dataarbol = dataarbol.replace(/CON IMAGEN/g, "../css/images/leaf.gif");
-        dataarbol = dataarbol.replace(/SIN IMAGEN/g, "");
-        dataarbol = dataarbol.replace(/Servicio/g, "columna5");
-        txtJson = "{ \"plugins\" : [],\"core\" : { \"data\" : " + dataarbol + "}}";
-        sessionStorage.setItem("txtJson2", txtJson);
+//        dataarbol = dataarbol.replace(/Codigo/g, "id"); 
+//        dataarbol = dataarbol.replace(/Depende/g, "parent");
+//        dataarbol = dataarbol.replace(/Nombre/g, "text");
+//        dataarbol = dataarbol.replace(/Imagen/g, "icon");
+//        dataarbol = dataarbol.replace(/CON IMAGEN/g, "../css/images/leaf.gif");
+//        dataarbol = dataarbol.replace(/SIN IMAGEN/g, "");
+//        dataarbol = dataarbol.replace(/Servicio/g, "columna5");
+//        txtJson = "{ \"plugins\" : [],\"core\" : { \"data\" : " + dataarbol + "}}";
+        sessionStorage.setItem("txtJson2", dataarbol);
         $("#divArbol").load("tree2.html"); 
-    }
-    
+    }    
 }
 
 function inicio(){
