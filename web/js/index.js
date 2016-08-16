@@ -9,20 +9,6 @@ var arreglo_funRepor = new Array();
 
 $(document).ready(function() {
     sessionStorage.setItem("VideoAyuda","http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865s");//cambiar urlVideo con url link apenas este listo el video de ayuda   
-    sessionStorage.setItem("cabeceraNew","");
-    sessionStorage.setItem("cabeceraLast","");
-    sessionStorage.setItem("cabeceraLlaves","");
-    sessionStorage.setItem("usrnom","Fernando Chaparro");//despues de las pruebas se debe eliminar esta linea
-    sessionStorage.setItem("usuario","fchaparro");//despues de las pruebas se debe eliminar esta linea
-    sessionStorage.setItem("usrmail","fchaparro@quantumltda.com"); //despues de las pruebas se debe eliminar esta linea
-    sessionStorage.setItem("loginintegrity","valido"); //despues de las pruebas se debe eliminar esta linea  
-    
-    $.getJSON("../js/txtJson2.json",function(data){        
-        objJson=data;
-        strJson=JSON.stringify(objJson);
-        sessionStorage.setItem("menuJsonIni",strJson);
-    }); 
-    
     if(sessionStorage.getItem("loginintegrity")==="valido"){
         $(window).trigger("resize");
         
@@ -190,20 +176,46 @@ function cerrarSesion(){
  * reestructura el json que esta en menuJsonIni y lo trasnforma de tal forma que sea util para enviarlo a la pag tree2.html la cual muestra una arbol
  */
 function menufunciones() {
-    var dataarbol = sessionStorage.getItem("menuJsonIni");	
-    var txtJson;	
-    if (dataarbol) {
-//        dataarbol = dataarbol.replace(/Codigo/g, "id"); 
-//        dataarbol = dataarbol.replace(/Depende/g, "parent");
-//        dataarbol = dataarbol.replace(/Nombre/g, "text");
-//        dataarbol = dataarbol.replace(/Imagen/g, "icon");
-//        dataarbol = dataarbol.replace(/CON IMAGEN/g, "../css/images/leaf.gif");
-//        dataarbol = dataarbol.replace(/SIN IMAGEN/g, "");
-//        dataarbol = dataarbol.replace(/Servicio/g, "columna5");
-//        txtJson = "{ \"plugins\" : [],\"core\" : { \"data\" : " + dataarbol + "}}";
-        sessionStorage.setItem("txtJson2", dataarbol);
-        $("#divArbol").load("tree2.html"); 
-    }    
+    
+    try{  
+        var jSonData = new Object();
+        jSonData.dslogin = new Object();
+        jSonData.dslogin.ttdatauser = new Array();
+        jSonData.dslogin.ttdatauser[0] = new Object();
+        jSonData.dslogin.ttdatauser[0].picusrcod = sessionStorage.getItem("usuario");
+        
+        $.ajax({
+            type: "POST",
+            data: JSON.stringify(jSonData),
+            url: ip + baseServicio +"arbol",
+            dataType : "json",
+            contentType: "application/json;",
+            success: function (resp) {
+                
+                menuUsuario = JSON.stringify(resp.dslogin.ttmenuxusuario);
+                sessionStorage.setItem("menuJsonIni",menuUsuario);
+                
+            },
+            error: function (e) {
+                alert("Error" + JSON.stringify(e));
+            }
+        });
+        
+        var dataarbol = sessionStorage.getItem("menuJsonIni");	
+        
+        if (dataarbol) {
+            dataarbol = dataarbol.replace(/Codigo/g, "id"); 
+            dataarbol = dataarbol.replace(/Depende/g, "parent");
+            dataarbol = dataarbol.replace(/Nombre/g, "text");
+            dataarbol = dataarbol.replace(/Imagen/g, "icon");
+            dataarbol = dataarbol.replace(/CON IMAGEN/g, "../css/images/leaf.gif");
+            dataarbol = dataarbol.replace(/SIN IMAGEN/g, "");
+            dataarbol = dataarbol.replace(/Servicio/g, "columna5");
+            txtJson = "{ \"plugins\" : [],\"core\" : { \"data\" : " + dataarbol + "}}";
+            sessionStorage.setItem("txtJson2", txtJson);
+            $("#divArbol").load("tree2.html"); 
+        }    
+    }catch(e){alert(e.message);}
 }
 
 function inicio(){

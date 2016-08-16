@@ -22,45 +22,47 @@ function onLoad() {
 function login() {
     usuario = $("#usuario").val();
     password = $("#password").val();
-
-    try {
-var datos = "{"
-+"  \"dslogin\": {"
-+"    \"ttdatauser\": ["
-+"      {"
-+"        \"picusrcod\": \"fchaparro\","
-+"        \"picusrpass\": \"1234\","
-+"        \"picfiid\": \"921682464178209792\","
-+"        \"poccargo\": \" \""
-+"      }"
-+"    ]"
-+"  }"
-+""
-+""
-+"}";
-        var jSonData = JSON.parse(datos);
-        var objResponse = {};
-        var objEstado = {};
+    
+    try {        
+        var jSonData = new Object();
+        jSonData.dslogin = new Object();
+        jSonData.dslogin.ttdatauser = new Array();
+        jSonData.dslogin.ttdatauser[0] = new Object();
+        jSonData.dslogin.ttdatauser[0].picusrcod = usuario;
+        jSonData.dslogin.ttdatauser[0].picusrpass = password;
+        
         $.ajax({
             type: "POST",
             data: JSON.stringify(jSonData),
-            url: "http://190.144.16.114:8810/rest/Base/BaseIntegrity/Login",
+            url: ip + baseServicio +"Login",
             dataType : "json",
-    contentType: "application/json;",
+            contentType: "application/json;",
             success: function (resp) {
-                alert("hola")
+                
+                permitirIngreso = JSON.stringify(resp.dslogin.ttestado[0].pocestado);
+                
+                if(permitirIngreso=='"OK"'){                
+                    console.log("Usuario con permiso de ingresar \n" + permitirIngreso);                    
+                    sessionStorage.setItem("usrnom",resp.dslogin.eesicusuarios[0].usrnom);
+                    sessionStorage.setItem("usuario",usuario);
+                    sessionStorage.setItem("usrmail",resp.dslogin.eesicusuarios[0].usrmail);
+                    sessionStorage.setItem("picfiid",resp.dslogin.ttdatauser[0].picfiid);
+                    sessionStorage.setItem("poccargo",resp.dslogin.ttdatauser[0].poccargo);
+                    sessionStorage.setItem("loginintegrity","valido");                                    
+                    window.location.assign("html/index.html");
+                }else{                    
+                    console.log("Usuario no puede ingresar \n" + permitirIngreso);                
+                }
             },
-            error: function (e) {
-                alert("Error" + JSON.stringify(e));
+                    error: function (e) {
+                        alert("Error" + JSON.stringify(e));
             }
-        }).done(function () { //use this
-            alert("hola");
         });
-    
+        
     } catch (e) {
         alert("Function: consumeServAjaxSIR Error: " + e.message);
     }
-
+    
 }
 
 /*
