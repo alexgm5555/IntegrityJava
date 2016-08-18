@@ -147,7 +147,7 @@ function  windowPopUp(detalle,titulo){
 //        alert("Function: windowPopUp Error: "+e.message);
 //        console.log(e.message)
 //    }
-var ip = sessionStorage.getItem("ip");
+    var ip = sessionStorage.getItem("ip");
     var puerto = sessionStorage.getItem("puerto");
     var myWindow = $("#window"),
             undo = $("#undo");
@@ -311,7 +311,7 @@ function abreFuncion(servicio){
         var contra = sessionStorage.getItem("contra");//sbm.util.getValue("textField1");
         var servicio = servicio.replace(/caracter/g,"");
         sessionStorage.setItem("servicio",servicio);
-        document.getElementById("idFrame").src = urlIFrame + "IntegrityViejo/Start.jsp";F        
+        document.getElementById("idFrame").src = urlIFrame + "IntegrityViejo/Start.jsp";        
     }else{
         document.getElementById("idFrame").src = urlIFrame+servicio+"/Start.jsp";
     }
