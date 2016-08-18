@@ -55,7 +55,7 @@ and open the template in the editor.
                                 <table width="100%">
                                     <tr>
                                         <td>
-                                            <img id="imgTransacciones" src="../images/transaccionesOff.png" title="Transacciones" onClick="cambiarImagen('imgTransacciones','tdVerde');" estado="off" name="imgMenu" onmouseover="this.src='../images/transaccionesRO.png';  mostrarArbol();" onmouseout="this.src='../images/transaccionesOff.png';" servicio=""/>                    
+                                            <img id="imgTransacciones" src="../images/transaccionesOff.png" title="Transacciones" onClick="" estado="off" name="imgMenu" onmouseover="this.src='../images/transaccionesRO.png';  mostrarArbol();" onmouseout="this.src='../images/transaccionesOff.png';" servicio=""/>                    
                                         </td>                
                                     </tr>
                                     <tr>
@@ -92,20 +92,18 @@ and open the template in the editor.
                                                 </div>
                                                 <div id="cambiarClave" hidden="hidden">
                                                     <br>
-                                                    <br>
-                                                    <form id="formClave">
+                                                    <br>                                                    
                                                         <label id= "lbClave" >Nueva clave:</label><br> 
                                                         <input id="IpClave" name ="Clave" required validationMessage="Clave necesaria" type="password" class="k-textbox"/><br><br>
                                                         <label id= "lbRClave" >Repetir clave:</label><br>
                                                         <input id="IpRClave" name ="RepetirClave" required validationMessage="Confirme su clave" type="password" class="k-textbox"/>
                                                         <span class="k-invalid-msg" data-for="RepetirClave"></span><br><br><br>
                                                         <button id="btnGuardarClave" class="k-primary" onclick="guardarClave()">Guardar Clave</button>
-                                                        <span class="status"></span>
-                                                    </form>                                                    
+                                                        <span class="status"></span>                                                    
                                                 </div>
                                                 <br>
                                             </td>
-                                            <td class="tdIFrame">
+                                            <td class="tdIFrame" onmouseover="ocultarArbol()">
                                                 <div id = "divIFrame">
                                                     <iframe id="idFrame" width="100%" height="100%" src="" frameborder="0"></iframe>
                                                 </div>

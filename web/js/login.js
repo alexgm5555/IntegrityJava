@@ -2,12 +2,15 @@
 var usuario;
 var password;
 var permitirIngreso;
-var validator;
-
 
 function onLoad() {
     sessionStorage.clear();
-    validator = $("#formLogin").kendoValidator().data("kendoValidator");
+    var url =   document.URL;
+    sessionStorage.setItem("url", url);
+    var y =   document.URL.split("/");
+    var ipPuerto=document.URL.split("/")[2];
+    var puerto =   y[2].split("/");
+    sessionStorage.setItem("puerto", puerto[0]);
 
     $("#btnLogin").kendoButton({
     });
@@ -34,7 +37,7 @@ function login() {
         $.ajax({
             type: "POST",
             data: JSON.stringify(jSonData),
-            url: ip + baseServicio +"Login",
+            url: ipServicios + baseServicio +"Login",
             dataType : "json",
             contentType: "application/json;",
             success: function (resp) {

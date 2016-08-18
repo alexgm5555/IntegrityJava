@@ -1,4 +1,11 @@
-var urlIFrame = "http://172.21.24.146:18800/sbm/BizSolo/"
+
+var puerto = sessionStorage.getItem("puerto");
+var ip = sessionStorage.getItem("ip");
+
+puerto = "18800" ;
+ip = "172.21.24.146";
+
+var urlIFrame = "http://"+ip+":"+puerto+"/sbm/BizSolo/";
 var arreglo_funCod = new Array();
 var arreglo_funDes = new Array();
 var arreglo_funIco = new Array();
@@ -9,6 +16,7 @@ var arreglo_funRepor = new Array();
 
 $(document).ready(function() {
     sessionStorage.setItem("VideoAyuda","http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865s");//cambiar urlVideo con url link apenas este listo el video de ayuda   
+    
     if(sessionStorage.getItem("loginintegrity")==="valido"){
         $(window).trigger("resize");
         
@@ -24,7 +32,7 @@ $(document).ready(function() {
         document.getElementById("imgUsuario").src = "../images/equipo/"+sessionStorage.getItem("usuario")+".png";
         
     }else{
-        window.location.assign("login.html");
+        window.location.assign(sessionStorage.getItem(url));
     }
     
     
@@ -144,11 +152,51 @@ function cambiarClave(){
 }
 
 function guardarClave(){
-    if(document.getElementById("IpClave").value==document.getElementById("IpRClave").value){
-        alert("continuar");
-        reemplazarDiv("cambiarClave","divBtCambiarClave");
-    }else{
-        status.text("Datos incompletos");            
+    try{
+        if(document.getElementById("IpClave").value==document.getElementById("IpRClave").value){
+            console.log("claves iguales")
+            var cambioExitoso;
+            var jSonData = new Object();
+            jSonData.dslogin = new Object();
+            jSonData.dslogin.ttdatauser = new Array();
+            jSonData.dslogin.ttdatauser[0] = new Object();
+            jSonData.dslogin.ttdatauser[0].picusrcod = sessionStorage.getItem("usuario");        
+            jSonData.dslogin.ee_userPAS = new Array();
+            jSonData.dslogin.ee_userPAS[0] = new Object();
+            jSonData.dslogin.ee_userPAS[0].euserid = sessionStorage.getItem("usuario");
+            jSonData.dslogin.ee_userPAS[0].epassword = document.getElementById("IpClave").value;
+            jSonData.dslogin.ee_userPAS[0].usrmail =  sessionStorage.getItem("usrmail");
+            
+            console.log("url servicio cambio clave "+ipServicios + baseServicio +"cambiopass\n"+JSON.stringify(jSonData));
+            
+            $.ajax({
+                type: "POST",
+                data: JSON.stringify(jSonData),
+                url: ipServicios + baseServicio +"cambiopass",
+                dataType : "json",
+                contentType: "application/json;",
+                success: function (resp) {                    
+                    cambioExitoso = JSON.stringify(resp.dslogin.ttestado[0].pocestado);                
+                },
+                error: function (e) {
+                    alert("Error \n" + JSON.stringify(e));
+                }
+            }).done(function(){
+                if (cambioExitoso=='"OK"') {
+                    alert("cambio existoso, sera redirigido al login");
+                    cerrarSesion();
+                }else{
+                    alert(cambioExitoso);
+                }
+                
+            });
+            
+            reemplazarDiv("cambiarClave","divBtCambiarClave");
+        }else{
+            status.text("Datos incompletos");            
+        }
+    } catch (e) {
+        alert("Function: consumeServAjaxSIR Error: " + e.message);
     }
 }
 /*
@@ -168,9 +216,9 @@ function ocultarArbol(){
 /*
  * Funcion que se encarga de limpiar todas las variables de sesion y retornar a la pagina de login.
  */
-function cerrarSesion(){
+function cerrarSesion(){    
+    window.location.assign(sessionStorage.getItem("url"));
     sessionStorage.clear();
-    window.location.assign("login.html");
 }
 /*
  * reestructura el json que esta en menuJsonIni y lo trasnforma de tal forma que sea util para enviarlo a la pag tree2.html la cual muestra una arbol
@@ -187,7 +235,7 @@ function menufunciones() {
         $.ajax({
             type: "POST",
             data: JSON.stringify(jSonData),
-            url: ip + baseServicio +"arbol",
+            url: ipServicios + baseServicio +"arbol",
             dataType : "json",
             contentType: "application/json;",
             success: function (resp) {
@@ -199,22 +247,24 @@ function menufunciones() {
             error: function (e) {
                 alert("Error" + JSON.stringify(e));
             }
+        }).done(function(){
+            var dataarbol = sessionStorage.getItem("menuJsonIni");	
+            
+            if (dataarbol) {
+                dataarbol = dataarbol.replace(/Codigo/g, "id"); 
+                dataarbol = dataarbol.replace(/Depende/g, "parent");
+                dataarbol = dataarbol.replace(/Nombre/g, "text");
+                dataarbol = dataarbol.replace(/Imagen/g, "icon");
+                dataarbol = dataarbol.replace(/CON IMAGEN/g, "../css/images/leaf.gif");
+                dataarbol = dataarbol.replace(/SIN IMAGEN/g, "");
+                dataarbol = dataarbol.replace(/Servicio/g, "columna5");
+                txtJson = "{ \"plugins\" : [],\"core\" : { \"data\" : " + dataarbol + "}}";
+                sessionStorage.setItem("txtJson2", txtJson);
+                $("#divArbol").load("tree2.html"); 
+            }    
         });
         
-        var dataarbol = sessionStorage.getItem("menuJsonIni");	
         
-        if (dataarbol) {
-            dataarbol = dataarbol.replace(/Codigo/g, "id"); 
-            dataarbol = dataarbol.replace(/Depende/g, "parent");
-            dataarbol = dataarbol.replace(/Nombre/g, "text");
-            dataarbol = dataarbol.replace(/Imagen/g, "icon");
-            dataarbol = dataarbol.replace(/CON IMAGEN/g, "../css/images/leaf.gif");
-            dataarbol = dataarbol.replace(/SIN IMAGEN/g, "");
-            dataarbol = dataarbol.replace(/Servicio/g, "columna5");
-            txtJson = "{ \"plugins\" : [],\"core\" : { \"data\" : " + dataarbol + "}}";
-            sessionStorage.setItem("txtJson2", txtJson);
-            $("#divArbol").load("tree2.html"); 
-        }    
     }catch(e){alert(e.message);}
 }
 
