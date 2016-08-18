@@ -30,6 +30,7 @@ $(document).ready(function() {
         document.getElementById("lbNombre").innerHTML = sessionStorage.getItem("usrnom");
         document.getElementById("lbEMail").innerHTML = sessionStorage.getItem("usrmail");    
         document.getElementById("imgUsuario").src = "../images/equipo/"+sessionStorage.getItem("usuario")+".png";
+        document.getElementById("logoEmpresa").src = "data:image/png;base64," + sessionStorage.getItem("img");
         
     }else{
         window.location.assign(sessionStorage.getItem(url));
@@ -106,10 +107,11 @@ function apagarBotones(id){
 /**
  * Abre la pagina de ayuda que esta almacenda como una variable de sesion, la pagina que despiegla por el momento esta en http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865sS
  */
-function ayuda(){        
+function ayuda(){
+    debugger
     var video = sessionStorage.getItem("VideoAyuda");
     if(video){
-        windowPopUp (video,"Ayuda");
+        windowPopUp(video,"Ayuda");
     }else{
         var htmlText= '<html><head><title>Soporte</title></head><body><p align="center">'+
 		'<img src="images/ayuda-52.png" alt="Soporte" width="200" height="45"><br></br></p>'+
@@ -125,26 +127,49 @@ function ayuda(){
  * @param {type} titulo
  * @returns {undefined}
  */
-function  windowPopUp (detalle,titulo){
-    try{
-        $("#windowDiv").append("<div id='window'></div>");
-        var win = $("#window").kendoWindow({
-            draggable: true,
-            height: "90%",
-            modal: true,
-            resizable: false,
-            title: titulo,
-            width: "1300px",
-            content: detalle,
-            close: function() {
-                this.destroy(); 
-            }
-        }).data("kendoWindow");
-        win.center()
-        win.open();
-    }catch(e){
-        alert("Function: windowPopUp Error: "+e.message);
+function  windowPopUp(detalle,titulo){
+//    try{
+//       // $("#windowDiv").append("<div id='window'></div>");
+//       $("#window").kendoWindow({
+//            draggable: true,
+//            height: "90%",
+//            modal: true,
+//            resizable: false,
+//            title: titulo,
+//            width: "1300px",
+//            content: "http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865sS",
+//            close: function() {
+//                this.destroy(); 
+//            }
+//        }).data("kendoWindow");
+//       
+//    }catch(e){
+//        alert("Function: windowPopUp Error: "+e.message);
+//        console.log(e.message)
+//    }
+var ip = sessionStorage.getItem("ip");
+    var puerto = sessionStorage.getItem("puerto");
+    var myWindow = $("#window"),
+            undo = $("#undo");
+
+    undo.click(function () {
+        myWindow.data("kendoWindow").open();
+        undo.fadeOut();
+    });
+
+    function onClose() {
+        undo.fadeIn();
     }
+
+    myWindow.kendoWindow({
+        draggable: true,
+        height: "70%",
+        modal: true,
+        resizable: false,
+        width: "60%",
+        content: "http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865sS",
+        close: onClose
+    }).data("kendoWindow").center().open();
 }
 
 function cambiarClave(){
@@ -278,11 +303,19 @@ function documentos(){
     document.getElementById("idFrame").src = urlIFrame+servicio+"/Start.jsp";      
 }
 
-function abreFuncion(servicio){    
+function abreFuncion(servicio){
     $("#tdPerfil").fadeOut("slow");
     apagarBotones();
     cambiarFondoTD("tdVerde")
-    document.getElementById("idFrame").src = urlIFrame+servicio+"/Start.jsp";
+    if(servicio.slice(0,8)=="caracter"){                
+        var contra = sessionStorage.getItem("contra");//sbm.util.getValue("textField1");
+        var servicio = servicio.replace(/caracter/g,"");
+        sessionStorage.setItem("servicio",servicio);
+        document.getElementById("idFrame").src = urlIFrame + "IntegrityViejo/Start.jsp";F        
+    }else{
+        document.getElementById("idFrame").src = urlIFrame+servicio+"/Start.jsp";
+    }
+    
 }
 
 function fijarPcf(){//apenas el usuario da click en alguna funcion del arbol tree2.html regresa a esta funcion con el nombre de la funcion y el id 
@@ -318,7 +351,6 @@ function fijarPcf(){//apenas el usuario da click en alguna funcion del arbol tre
         else if(urlRepor!=""){
             sessionStorage.setItem("idrepcon",urlRepor);
         }        
-        sessionStorage.setItem("VideoAyuda",urlVideo);
         abreFuncion(urlFSelec);
         ocultarArbol();
         

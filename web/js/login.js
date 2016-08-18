@@ -43,6 +43,7 @@ function login() {
             success: function (resp) {
                 
                 permitirIngreso = JSON.stringify(resp.dslogin.ttestado[0].pocestado);
+                imgEmp = JSON.stringify();
                 
                 if(permitirIngreso=='"OK"'){                
                     console.log("Usuario con permiso de ingresar \n" + permitirIngreso);                    
@@ -51,6 +52,9 @@ function login() {
                     sessionStorage.setItem("usrmail",resp.dslogin.eesicusuarios[0].usrmail);
                     sessionStorage.setItem("picfiid",resp.dslogin.ttdatauser[0].picfiid);
                     sessionStorage.setItem("poccargo",resp.dslogin.ttdatauser[0].poccargo);
+                    sessionStorage.setItem("img",resp.dslogin.eesiccia[0].cialog);
+                    sessionStorage.setItem("companyNIT",resp.dslogin.eesiccia[0].cianit);
+                    sessionStorage.setItem("contra",""); // clave que solicita el los servicios con "carater"
                     sessionStorage.setItem("loginintegrity","valido");                                    
                     window.location.assign("html/index.html");
                 }else{                    
