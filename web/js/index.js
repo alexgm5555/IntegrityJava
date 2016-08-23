@@ -128,6 +128,21 @@ function ayuda(){
  * @returns {undefined}
  */
 function  windowPopUp(detalle,titulo){
+    
+    $("#window").kendoWindow({
+        animation: true,        
+        draggable: true,
+        height: "90%",
+        modal: true,
+        resizable: false,
+        title: "hola",
+        width: "1300px",
+        content: "http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865sS",
+        close: function() {
+            this.destroy(); 
+        }
+    });
+    
 //    try{
 //       // $("#windowDiv").append("<div id='window'></div>");
 //       $("#window").kendoWindow({
@@ -147,29 +162,29 @@ function  windowPopUp(detalle,titulo){
 //        alert("Function: windowPopUp Error: "+e.message);
 //        console.log(e.message)
 //    }
-    var ip = sessionStorage.getItem("ip");
-    var puerto = sessionStorage.getItem("puerto");
-    var myWindow = $("#window"),
-            undo = $("#undo");
-
-    undo.click(function () {
-        myWindow.data("kendoWindow").open();
-        undo.fadeOut();
-    });
-
-    function onClose() {
-        undo.fadeIn();
-    }
-
-    myWindow.kendoWindow({
-        draggable: true,
-        height: "70%",
-        modal: true,
-        resizable: false,
-        width: "60%",
-        content: "http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865sS",
-        close: onClose
-    }).data("kendoWindow").center().open();
+//    var ip = sessionStorage.getItem("ip");
+//    var puerto = sessionStorage.getItem("puerto");
+//    var myWindow = $("#window"),
+//            undo = $("#undo");
+//
+//    undo.click(function () {
+//        myWindow.data("kendoWindow").open();
+//        undo.fadeOut();
+//    });
+//
+//    function onClose() {
+//        undo.fadeIn();
+//    }
+//
+//    myWindow.kendoWindow({
+//        draggable: true,
+//        height: "70%",
+//        modal: true,
+//        resizable: false,
+//        width: "60%",
+//        content: "http://comunicacion349.wix.com/integrity#!reportes-tutoriales/w865sS",
+//        close: onClose
+//    }).data("kendoWindow").center().open();
 }
 
 function cambiarClave(){

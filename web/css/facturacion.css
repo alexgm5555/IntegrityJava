@@ -36,3 +36,10 @@ body{
     font-family: Helvetica;
     font-weight: bold;
 }
+textarea {
+resize: vertical;
+}
+
+.tdBotton{
+    text-align: center;    
+}
